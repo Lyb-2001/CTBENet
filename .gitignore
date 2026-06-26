@@ -1,0 +1,40 @@
+# Python cache and build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Logs and experiment outputs
+logs/
+toolbox/logs/
+runs/
+outputs/
+checkpoints/
+*.log
+events.out.tfevents.*
+
+# Local data
+data/
+datasets/
+dataset/
+*.zip
+*.tar
+*.tar.gz
+*.rar
+
+# IDE and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

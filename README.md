@@ -27,15 +27,15 @@ Our method systematically tackles thermal reliability through a "Select, Deconfo
 ## 🏗️ Architecture and Core Components
 
 CTBENet transitions away from indiscriminate encode-then-fuse paradigms toward a principled causal intervention process[cite: 2]. 
-
-![CTBENet Architecture](https://github.com/user-attachments/assets/PLACEHOLDER_FOR_FIGURE_2)
-*Figure 1: Overall architecture of CTBENet. Multi-level thermal states are selectively injected into the frozen RGB backbone through MoSAdapter, and the last-stage feature is refined by PCI before decoding[cite: 2].*
+<img width="611" height="392" alt="image" src="https://github.com/user-attachments/assets/9aa2b098-6053-450d-9960-95a22c50a4c8" />
 
 ### 1. Mixture-of-States Adapter (MoSAdapter) - *Select*
 Instead of rigid layer-wise fusion, MoSAdapter treats multi-level thermal states as candidates[cite: 2]. Guided by semantic text prompts, it dynamically routes reliable thermal features into the frozen RGB backbone via an epsilon-greedy strategy, mitigating the interference of thermal noise[cite: 2].
 
 ### 2. Prototype Causal Intervention (PCI) - *Deconfound*
 To eliminate high-level thermal artifacts (e.g., background heat acting as environmental shortcuts), PCI performs an entropy-guided causal intervention[cite: 2]. It actively subtracts non-semantic confounder contexts specifically in regions exhibiting high spatial uncertainty[cite: 2].
+
+<img width="299" height="194" alt="image" src="https://github.com/user-attachments/assets/6b9a8cbc-0842-47a3-813b-2f9e0910534d" />
 
 ### 3. Counterfactual Thermal Gain (CTG) - *Elicit*
 To prevent "modality laziness" where the powerful RGB VFM dominates optimization, CTG explicitly enforces the network to learn the incremental benefits of the thermal modality[cite: 2]. During training, it compares factual predictions with a counterfactual path (T=Ø) to ensure thermal cues actively increase ground-truth confidence[cite: 2].
@@ -46,19 +46,16 @@ To prevent "modality laziness" where the powerful RGB VFM dominates optimization
 
 ### Quantitative Results
 CTBENet establishes new state-of-the-art results on the SUS dataset, outperforming recent foundation-model adaptations (like HFIT and TUNI) and traditional fusion networks[cite: 2].
+<img width="597" height="251" alt="image" src="https://github.com/user-attachments/assets/3eb0cd94-8123-450d-980b-bd708135b29e" />
+<img width="293" height="310" alt="image" src="https://github.com/user-attachments/assets/7cc40a25-5088-4d40-8c0e-2ec6cfc73b20" />
+<img width="293" height="281" alt="image" src="https://github.com/user-attachments/assets/2769d61b-217c-490d-b733-1fb8ecd31977" />
 
-| Method | Backbone | SUS (mIoU) | PST900 (mIoU) | MSRS (mIoU) | FMB (mIoU) |
-| :--- | :--- | :---: | :---: | :---: | :---: |
-| GMNet | ResNet101 | 81.2 | 84.1 | 73.9 | 49.2 |
-| CMX | MiT-B2 | 81.2 | 84.9 | 75.3 | 61.1 |
-| MiLNet | MiT-B3 | 83.7 | 85.1 | 74.7 | 61.8 |
-| TUNI | TUNI-B | 83.9 | 89.1 | 80.7 | 66.3 |
-| **CTBENet (Ours)** | **DINOv3 (ConvNeXt-B)** | **85.1** | **89.7** | **81.1** | **68.1** |
 
 ### Qualitative Visualization
 Our causal paradigm demonstrates superior parsing capabilities under extremely degraded lighting and severe snow conditions[cite: 2].
 
-![Qualitative Results](https://github.com/user-attachments/assets/PLACEHOLDER_FOR_FIGURE_4)
+<img width="541" height="295" alt="image" src="https://github.com/user-attachments/assets/48515fc6-3887-4e60-b96d-da352661d708" />
+
 
 ---
 
@@ -69,15 +66,9 @@ This work is extensively evaluated on the RGB-T Snowy Urban Scene (SUS) dataset[
 * ❄️ **SUS Dataset:** [https://github.com/xiaodonguo/SUS_dataset](https://github.com/xiaodonguo/SUS_dataset)
 
 ---
+## Code Release
 
-## 📖 Citation
+The complete source code will be released upon the acceptance of our paper. Stay tuned!
 
-If you find our causal adaptation framework or concepts useful for your research, please consider citing our paper:
-
-```bibtex
-@inproceedings{ctbenet2026,
-  title={Select, Deconfound, and Elicit: A Causal Thermal Benefit Elicitation Network for RGB-T Snowy Urban Scene Parsing},
-  author={Anonymous Submission},
-  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
-  year={2026}
-}
+## Contact
+Please drop me an email for any problems or discussion: yibenli2001@163.com.

@@ -1,60 +1,83 @@
-⛄ Generative-to-Discriminative: Uncertainty-Aware Distillation for RGB-T Snowy Urban Scene Parsing
-This is the official repository for the paper "Generative-to-Discriminative: Uncertainty-Aware Distillation for RGB-T Snowy Urban Scene Parsing".
+# ⛄ Select, Deconfound, and Elicit: A Causal Thermal Benefit Elicitation Network for RGB-T Snowy Urban Scene Parsing
 
-📢 News
-[Coming Soon] The complete source code (training and evaluation scripts) will be fully released upon the acceptance of our paper. Stay tuned!
+[![Paper](https://img.shields.io/badge/Paper-Coming_Soon-blue.svg)](#)
+[![Dataset](https://img.shields.io/badge/Dataset-SUS-green.svg)](https://github.com/xiaodonguo/SUS_dataset)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[202X.XX] Pre-trained weights and visualization results are now available for download.
+This is the official repository for the paper **"Select, Deconfound, and Elicit: A Causal Thermal Benefit Elicitation Network for RGB-T Snowy Urban Scene Parsing"**[cite: 2].
 
-🔥 Highlights
-We pioneer a novel Generative-to-Discriminative (G2D) framework that successfully resolves the trade-off between generative uncertainty modeling and real-time inference in adverse weather conditions.
+---
 
-Our exceptionally lightweight student network, G2DNet-S*, achieves state-of-the-art accuracy while maintaining highly efficient deployment metrics:
+## 📢 News
+* **[Coming Soon]** The complete PyTorch source code, including training, evaluation scripts, and pre-trained models, will be fully released upon the acceptance of our paper. Stay tuned!
 
-🏆 Performance: 83.0% mIoU on the challenging SUS dataset.
+---
 
-⚡ Efficiency: Requires only 5.76 M parameters and 15.62 G FLOPs.
+## 🔥 Highlights
 
-🚀 Speed: Runs at a robust 24.76 FPS, paving the way for real-time autonomous driving applications.
+We propose **CTBENet**, a novel framework that reformulates VFM-based cross-modal adaptation from a causal perspective to address the unstable reliability of thermal cues in adverse snowy environments[cite: 2].
 
-🏗️ Architecture and Details
-1. Overall G2D Framework & Uncertainty-Aware Distillation (UAD) Strategy
-The proposed framework decouples the complex generative modeling from real-time execution. The UAD strategy bridges the capacity gap between the generative teacher and the discriminative student.
+Our method systematically tackles thermal reliability through a "Select, Deconfound, and Elicit" paradigm, achieving state-of-the-art robustness and generalization[cite: 2]:
+* 🏆 **State-of-the-Art Performance:** Achieves **85.1% mIoU** and **91.8% mF1** on the challenging SUS dataset[cite: 2].
+* 🌍 **Robust Generalization:** Consistently establishes new benchmarks across diverse RGB-T scenarios, including **PST900 (89.7%)**, **FMB (68.1%)**, and **MSRS (81.1%)**[cite: 2].
+* 🧠 **Causal Adaptation:** Unlocks the power of frozen Vision Foundation Models (DINOv3) without disrupting semantic priors by explicitly regulating thermal noise and confounding effects[cite: 2].
 
-2. Generative Teacher (G2DNet-T)
-A powerful generative model that captures robust multimodal semantic distributions and quantifies uncertainty in degraded snowy scenes.
+---
 
-3. Real-Time Student (G2DNet-S) with MSA & FDA
-An extremely lightweight discriminative network. It is optimized via distillation to mimic the teacher's robust representations, enhanced by Modality-Specific Adapters (MSA) and Feature Distillation Alignment (FDA).
+## 🏗️ Architecture and Core Components
 
-📊 Results
-Quantitative Results (Efficiency vs. Accuracy)
-Our G2DNet-S consistently outperforms existing state-of-the-art RGB-T segmentation methods, establishing a new Pareto frontier in the accuracy-efficiency trade-off.
+CTBENet transitions away from indiscriminate encode-then-fuse paradigms toward a principled causal intervention process[cite: 2]. 
 
-Qualitative Visualization
-Robust parsing capabilities in extremely degraded snowy urban environments, effectively suppressing thermal noise and visual ambiguity.
+![CTBENet Architecture](https://github.com/user-attachments/assets/PLACEHOLDER_FOR_FIGURE_2)
+*Figure 1: Overall architecture of CTBENet. Multi-level thermal states are selectively injected into the frozen RGB backbone through MoSAdapter, and the last-stage feature is refined by PCI before decoding[cite: 2].*
 
-📦 Weights and Visualizations
-You can download the pre-trained weights of both the Teacher (G2DNet-T) and Student (G2DNet-S) models, along with full-resolution visualization results, from the link below:
+### 1. Mixture-of-States Adapter (MoSAdapter) - *Select*
+Instead of rigid layer-wise fusion, MoSAdapter treats multi-level thermal states as candidates[cite: 2]. Guided by semantic text prompts, it dynamically routes reliable thermal features into the frozen RGB backbone via an epsilon-greedy strategy, mitigating the interference of thermal noise[cite: 2].
 
-🔗 Baidu Netdisk: Download G2DNet Weights & Results
+### 2. Prototype Causal Intervention (PCI) - *Deconfound*
+To eliminate high-level thermal artifacts (e.g., background heat acting as environmental shortcuts), PCI performs an entropy-guided causal intervention[cite: 2]. It actively subtracts non-semantic confounder contexts specifically in regions exhibiting high spatial uncertainty[cite: 2].
 
-📂 Base Framework and Dataset
-This work is evaluated extensively on the RGB-T Snowy Urban Scene (SUS) dataset. The base framework and the dataset utilized in our research can be obtained from the following repository:
+### 3. Counterfactual Thermal Gain (CTG) - *Elicit*
+To prevent "modality laziness" where the powerful RGB VFM dominates optimization, CTG explicitly enforces the network to learn the incremental benefits of the thermal modality[cite: 2]. During training, it compares factual predictions with a counterfactual path (T=Ø) to ensure thermal cues actively increase ground-truth confidence[cite: 2].
 
-❄️ SUS Dataset: https://github.com/xiaodonguo/SUS_dataset
+---
 
-📖 Citation
-If you find our work, code, or pre-trained models useful for your research, please consider citing our paper:
+## 📊 Results
 
-代码段
-@article{g2dnet2026,
-  title={Generative-to-Discriminative: Uncertainty-Aware Distillation for RGB-T Snowy Urban Scene Parsing},
-  author={Li, Yiben and others},
-  journal={Coming Soon},
+### Quantitative Results
+CTBENet establishes new state-of-the-art results on the SUS dataset, outperforming recent foundation-model adaptations (like HFIT and TUNI) and traditional fusion networks[cite: 2].
+
+| Method | Backbone | SUS (mIoU) | PST900 (mIoU) | MSRS (mIoU) | FMB (mIoU) |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| GMNet | ResNet101 | 81.2 | 84.1 | 73.9 | 49.2 |
+| CMX | MiT-B2 | 81.2 | 84.9 | 75.3 | 61.1 |
+| MiLNet | MiT-B3 | 83.7 | 85.1 | 74.7 | 61.8 |
+| TUNI | TUNI-B | 83.9 | 89.1 | 80.7 | 66.3 |
+| **CTBENet (Ours)** | **DINOv3 (ConvNeXt-B)** | **85.1** | **89.7** | **81.1** | **68.1** |
+
+### Qualitative Visualization
+Our causal paradigm demonstrates superior parsing capabilities under extremely degraded lighting and severe snow conditions[cite: 2].
+
+![Qualitative Results](https://github.com/user-attachments/assets/PLACEHOLDER_FOR_FIGURE_4)
+
+---
+
+## 📂 Base Framework and Dataset
+
+This work is extensively evaluated on the RGB-T Snowy Urban Scene (SUS) dataset[cite: 2]. The dataset and baseline framework can be obtained from:
+
+* ❄️ **SUS Dataset:** [https://github.com/xiaodonguo/SUS_dataset](https://github.com/xiaodonguo/SUS_dataset)
+
+---
+
+## 📖 Citation
+
+If you find our causal adaptation framework or concepts useful for your research, please consider citing our paper:
+
+```bibtex
+@inproceedings{ctbenet2026,
+  title={Select, Deconfound, and Elicit: A Causal Thermal Benefit Elicitation Network for RGB-T Snowy Urban Scene Parsing},
+  author={Anonymous Submission},
+  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
   year={2026}
 }
-(The bibtex will be updated upon publication)
-
-📧 Contact
-If you have any questions, encounter issues, or would like to discuss the paper/code, please feel free to drop me an email at: yibenli2001@163.com.

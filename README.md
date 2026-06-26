@@ -69,6 +69,3 @@ This work is extensively evaluated on the RGB-T Snowy Urban Scene (SUS) dataset[
 ## Code Release
 
 The complete source code will be released upon the acceptance of our paper. Stay tuned!
-
-## Contact
-Please drop me an email for any problems or discussion: yibenli2001@163.com.
